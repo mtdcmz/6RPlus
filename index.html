@@ -148,8 +148,8 @@
         }
         
         .game-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            display: flex;
+            flex-wrap: wrap;
             gap: 1px;
             background: #eee;
             margin: 0 25px;
@@ -162,6 +162,8 @@
             padding: 18px 10px;
             text-align: center;
             position: relative;
+            flex: 1;
+            min-width: 120px;
         }
         
         .stat-value {
@@ -227,9 +229,40 @@
             padding: 25px;
         }
         
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            background-color: #e8f4fd;
+            color: #1890ff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .uid-link {
+            color: #1890ff;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .uid-link:hover {
+            color: #ff6b35;
+            text-decoration: underline;
+        }
+        
         @media (max-width: 768px) {
             .game-body {
                 grid-template-columns: 1fr;
+            }
+            .stat {
+                min-width: calc(50% - 1px);
             }
         }
         
@@ -288,6 +321,175 @@
             object-fit: cover;
         }
         
+        .comments-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .show-comments-btn {
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+        
+        .show-comments-btn:hover {
+            background-color: #ff5722;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .comments-count {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .comment-list {
+            border: 1px solid #eee;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .comment-item {
+            padding: 20px;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .comment-content {
+            flex: 1;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .comment-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comment-username {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .author-badge {
+            background-color: #ff6b35;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+        
+        .user-level {
+            background-color: #f0f0f0;
+            color: #666;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+        
+        .comment-time {
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .comment-text {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .comment-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+        
+        .comment-type {
+            color: #666;
+        }
+        
+        .comment-likes {
+            color: #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .pagination-btn {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background-color: #e0e0e0;
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-info {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .no-comments {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
         footer {
             text-align: center;
             margin-top: 40px;
@@ -320,13 +522,21 @@
                 padding: 14px;
             }
             
-            .game-stats {
-                grid-template-columns: repeat(2, 1fr);
-                margin: 0 15px;
+            .stat {
+                min-width: calc(50% - 1px);
             }
             
             .game-header, .game-body {
                 padding: 20px;
+            }
+            
+            .comment-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .comment-user {
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -354,11 +564,15 @@
         const gameIdInput = document.getElementById('gameIdInput');
         const searchBtn = document.getElementById('searchBtn');
         const resultArea = document.getElementById('resultArea');
-        const API_BASE = 'https://66rpg.mtdcmz.dpdns.org/api/game';
+        const API_BASE = 'https://66rpg.mtdcmz.dpdns.org/api';
+        let currentGameId = null;
+        let currentPage = 1;
+        let currentTotalPages = 1;
+        let currentTotalComments = 0;
+        let commentsLoaded = false;
         
         function formatTime(timestamp) {
             if (!timestamp) return '未知';
-            
             try {
                 let date;
                 if (typeof timestamp === 'string' && timestamp.length === 8) {
@@ -370,7 +584,6 @@
                     const ts = parseInt(timestamp);
                     date = new Date(ts * 1000);
                 }
-                
                 return date.toLocaleDateString('zh-CN');
             } catch (e) {
                 return timestamp;
@@ -422,14 +635,18 @@
             textArea.value = text;
             document.body.appendChild(textArea);
             textArea.select();
-            
             try {
                 document.execCommand('copy');
             } catch (err) {
                 console.error('复制失败:', err);
             }
-            
             document.body.removeChild(textArea);
+        }
+        
+        function openUserProfile(uid) {
+            if (uid && uid !== '未知') {
+                window.open(`https://www.66rpg.com/friend/${uid}`, '_blank');
+            }
         }
         
         function displayGame(data) {
@@ -437,8 +654,12 @@
                 gindex, gname, author_uname, author_uid,
                 real_thumb, description, play_times,
                 first_pub_time, guid, version, likes,
-                update_logs
+                update_logs, monthly_popularity, flowers,
+                favorites, share_times, word_count, tags
             } = data;
+            
+            currentGameId = gindex;
+            commentsLoaded = false;
             
             let logsHTML = '';
             if (update_logs && update_logs.length > 0) {
@@ -459,6 +680,59 @@
                 </div>` : 
                 '<div style="margin-top: 5px;">无</div>';
             
+            let tagsHTML = '';
+            if (tags && Array.isArray(tags) && tags.length > 0) {
+                tagsHTML = tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            } else {
+                tagsHTML = '<span style="color:#666">暂无标签</span>';
+            }
+            
+            const authorLink = author_uid && author_uid !== '未知' ? 
+                `<a href="https://www.66rpg.com/friend/${author_uid}" target="_blank" class="uid-link">${author_uname || '未知'}</a>` : 
+                (author_uname || '未知');
+            
+            const statsData = [];
+            
+            if (play_times && play_times !== '0' && play_times !== '未知') {
+                statsData.push({ label: '游玩次数', value: play_times });
+            }
+            
+            if (monthly_popularity && monthly_popularity !== '0' && monthly_popularity !== '未知') {
+                statsData.push({ label: '月人气值', value: monthly_popularity });
+            }
+            
+            if (flowers && flowers !== '0' && flowers !== '未知') {
+                statsData.push({ label: '鲜花数', value: flowers });
+            }
+            
+            if (favorites && favorites !== '0' && favorites !== '未知') {
+                statsData.push({ label: '收藏数', value: favorites });
+            }
+            
+            if (share_times && share_times !== '0' && share_times !== '未知') {
+                statsData.push({ label: '分享次数', value: share_times });
+            }
+            
+            if (word_count && word_count !== '0' && word_count !== '未知') {
+                statsData.push({ label: '字数', value: word_count });
+            }
+            
+            if (statsData.length === 0) {
+                statsData.push(
+                    { label: '点赞量', value: likes || '0' },
+                    { label: '版本号', value: version || '未知' },
+                    { label: 'GUID', value: guid ? '有' : '无', extra: guidHTML }
+                );
+            }
+            
+            const statsHTML = statsData.map(stat => `
+                <div class="stat">
+                    <div class="stat-value">${stat.value}</div>
+                    <div class="stat-label">${stat.label}</div>
+                    ${stat.extra || ''}
+                </div>
+            `).join('');
+            
             resultArea.innerHTML = `
                 <div class="game-card">
                     <div class="game-header">
@@ -468,28 +742,12 @@
                         </div>
                         <div class="game-meta">
                             <div>发布时间: ${formatTime(first_pub_time)}</div>
-                            <div>作者: ${author_uname || '未知'} (UID: ${author_uid || '未知'})</div>
+                            <div>作者: ${authorLink} (UID: <span class="uid-link" onclick="openUserProfile('${author_uid}')">${author_uid || '未知'}</span>)</div>
                         </div>
                     </div>
                     
                     <div class="game-stats">
-                        <div class="stat">
-                            <div class="stat-value">${play_times || '0'}</div>
-                            <div class="stat-label">游玩次数</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">${version || '未知'}</div>
-                            <div class="stat-label">版本号</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">${likes || '0'}</div>
-                            <div class="stat-label">点赞量</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">${guid ? '有' : '无'}</div>
-                            ${guidHTML}
-                            <div class="stat-label">GUID</div>
-                        </div>
+                        ${statsHTML}
                     </div>
                     
                     <div class="game-body">
@@ -497,6 +755,34 @@
                             <div class="section">
                                 <h3 class="section-title">游戏简介</h3>
                                 <div class="description">${description || '暂无简介'}</div>
+                            </div>
+                            <div class="section">
+                                <h3 class="section-title">游戏标签</h3>
+                                <div class="tags-container">${tagsHTML}</div>
+                            </div>
+                            <div class="section">
+                                <h3 class="section-title">版本信息</h3>
+                                <div style="display: flex; gap: 30px;">
+                                    <div>
+                                        <div style="margin-bottom: 10px;">
+                                            <strong style="color:#666">版本号:</strong>
+                                            <span style="margin-left: 10px; font-size: 16px; font-weight: 500;">${version || '未知'}</span>
+                                        </div>
+                                        <div>
+                                            <strong style="color:#666">点赞量:</strong>
+                                            <span style="margin-left: 10px; font-size: 16px; font-weight: 500; color:#ff6b35">${likes || '0'}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style="margin-bottom: 10px;">
+                                            <strong style="color:#666">游戏GUID:</strong>
+                                            ${guid ? `<div style="margin-top: 5px;">
+                                                <code style="background:#f5f5f5; padding:4px 8px; border-radius:4px; font-size:12px;">${guid}</code>
+                                                <div class="guid-copy" onclick="copyGuid('${guid}')" data-guid="${guid}" style="display:inline-block; margin-left:10px;">复制</div>
+                                            </div>` : '<div style="margin-top:5px; color:#666">无</div>'}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="section">
                                 <h3 class="section-title">更新日志</h3>
@@ -512,12 +798,155 @@
                         </div>
                     </div>
                 </div>
+                
+                <button class="show-comments-btn" id="showCommentsBtn">猛戳展开评论区</button>
+                
+                <div class="comments-section" id="commentsSection">
+                    <div class="comments-header">
+                        <h3 class="section-title">玩家评论</h3>
+                        <div class="comments-count" id="commentsCount">共 0 条评论</div>
+                    </div>
+                    <div class="comment-list" id="commentList">
+                        <div class="no-comments">
+                            <p>暂无评论</p>
+                        </div>
+                    </div>
+                    <div class="pagination" id="pagination" style="display: none;">
+                        <button class="pagination-btn" id="prevPage" onclick="changePage(-1)">上一页</button>
+                        <div class="page-info" id="pageInfo">第 1 页 / 共 1 页</div>
+                        <button class="pagination-btn" id="nextPage" onclick="changePage(1)">下一页</button>
+                    </div>
+                </div>
             `;
+            
+            document.getElementById('showCommentsBtn').addEventListener('click', function() {
+                if (!commentsLoaded) {
+                    loadComments(currentGameId, 1);
+                }
+                document.getElementById('commentsSection').style.display = 'block';
+                this.style.display = 'none';
+            });
+        }
+        
+        async function loadComments(gameId, page = 1) {
+            const commentList = document.getElementById('commentList');
+            const commentsCount = document.getElementById('commentsCount');
+            const pagination = document.getElementById('pagination');
+            const pageInfo = document.getElementById('pageInfo');
+            const prevPageBtn = document.getElementById('prevPage');
+            const nextPageBtn = document.getElementById('nextPage');
+            
+            if (!gameId) return;
+            
+            commentList.innerHTML = `
+                <div class="loading">
+                    <p>正在加载评论...</p>
+                </div>
+            `;
+            
+            try {
+                const response = await fetch(`${API_BASE}/comments/${gameId}?page=${page}&limit=10&sort=2&desc=1`);
+                const result = await response.json();
+                
+                if (result.status === 1) {
+                    const commentsData = result.data;
+                    currentPage = commentsData.page;
+                    currentTotalPages = commentsData.total_pages;
+                    currentTotalComments = commentsData.total_comments;
+                    commentsLoaded = true;
+                    
+                    if (commentsCount) {
+                        commentsCount.textContent = `共 ${currentTotalComments} 条评论`;
+                    }
+                    
+                    if (commentsData.comments && commentsData.comments.length > 0) {
+                        let commentsHTML = '';
+                        
+                        commentsData.comments.forEach(comment => {
+                            const isAuthor = comment.is_author ? '<span class="author-badge">作者</span>' : '';
+                            const userLevel = comment.user_level ? `<span class="user-level">LV${comment.user_level}</span>` : '';
+                            const userAvatar = comment.user_avatar || 'https://via.placeholder.com/40';
+                            const uid = comment.uid || '';
+                            const username = comment.username || '匿名用户';
+                            
+                            const userLink = uid ? 
+                                `<a href="https://www.66rpg.com/friend/${uid}" target="_blank" class="uid-link comment-username">${username}</a>` :
+                                `<span class="comment-username">${username}</span>`;
+                            
+                            commentsHTML += `
+                                <div class="comment-item">
+                                    <img src="${userAvatar}" alt="头像" class="comment-avatar" onerror="this.src='https://via.placeholder.com/40'">
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <div class="comment-user">
+                                                ${userLink}
+                                                ${isAuthor}
+                                                ${userLevel}
+                                            </div>
+                                            <div class="comment-time">${comment.add_time_string || '未知时间'}</div>
+                                        </div>
+                                        <div class="comment-text">${comment.comment || '无评论内容'}</div>
+                                        <div class="comment-footer">
+                                            <div class="comment-type">${comment.type_name || '普通评论'}</div>
+                                            <div class="comment-likes">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                                </svg>
+                                                ${comment.like_count || 0}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        
+                        commentList.innerHTML = commentsHTML;
+                        
+                        if (currentTotalPages > 1) {
+                            pagination.style.display = 'flex';
+                            pageInfo.textContent = `第 ${currentPage} 页 / 共 ${currentTotalPages} 页`;
+                            
+                            prevPageBtn.disabled = currentPage <= 1;
+                            nextPageBtn.disabled = currentPage >= currentTotalPages;
+                        } else {
+                            pagination.style.display = 'none';
+                        }
+                    } else {
+                        commentList.innerHTML = `
+                            <div class="no-comments">
+                                <p>暂无评论</p>
+                            </div>
+                        `;
+                        pagination.style.display = 'none';
+                    }
+                } else {
+                    commentList.innerHTML = `
+                        <div class="error-box">
+                            <p>加载评论失败: ${result.message || '未知错误'}</p>
+                        </div>
+                    `;
+                    pagination.style.display = 'none';
+                }
+            } catch (error) {
+                commentList.innerHTML = `
+                    <div class="error-box">
+                        <p>加载评论失败: 网络错误</p>
+                    </div>
+                `;
+                pagination.style.display = 'none';
+                console.error('加载评论失败:', error);
+            }
+        }
+        
+        function changePage(delta) {
+            const newPage = currentPage + delta;
+            if (newPage >= 1 && newPage <= currentTotalPages && currentGameId) {
+                loadComments(currentGameId, newPage);
+            }
         }
         
         function copyGuid(guid) {
             copyToClipboard(guid);
-            
             const button = document.querySelector('[data-guid="' + guid + '"]');
             if (button) {
                 showCopyTooltip(button);
@@ -538,9 +967,12 @@
             }
             
             showLoading();
+            currentGameId = gameId;
+            currentPage = 1;
+            commentsLoaded = false;
             
             try {
-                const response = await fetch(`${API_BASE}/${gameId}?updates=1`);
+                const response = await fetch(`${API_BASE}/game/${gameId}?updates=1`);
                 const result = await response.json();
                 
                 if (result.status === 1) {
